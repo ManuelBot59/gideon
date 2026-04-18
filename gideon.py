@@ -78,7 +78,6 @@ while True:
         print(res)
         page = get("https://iknowwhatyoudownload.com/en/peer/?ip=" + ip, headers=ts.headers)
         soup = BeautifulSoup(page.content, "html.parser")
-        
         # Corrección: Verificar si la tabla existe antes de intentar extraer datos
         table_div = soup.find(class_="table")
         if table_div:
@@ -116,9 +115,8 @@ while True:
         Operator -> {ls["org"]}
         '''
         print(res)
-page = get("https://iknowwhatyoudownload.com/en/peer/?ip=" + ip, headers=ts.headers)
+        page = get("https://iknowwhatyoudownload.com/en/peer/?ip=" + ip, headers=ts.headers)
         soup = BeautifulSoup(page.content, "html.parser")
-        
         # Corrección: Verificar si la tabla existe antes de intentar extraer datos
         table_div = soup.find(class_="table")
         if table_div:
