@@ -76,21 +76,32 @@ while True:
         Operator -> {ls["org"]}
         '''
         print(res)
-        page = get("https://iknowwhatyoudownload.com/en/peer/?ip=" + ip,
-                   headers=ts.headers)
+        page = get("https://iknowwhatyoudownload.com/en/peer/?ip=" + ip, headers=ts.headers)
         soup = BeautifulSoup(page.content, "html.parser")
-        table = soup.find(class_="table").find("tbody")
-        torrents = table.find_all("tr")
-        output = PrettyTable(["Name", "Category", "Size", "First seen", "Last seen"])
-        for torrent in torrents:
-            first, last = torrent.find_all(class_="date-column")
-            first, last = first.text, last.text
-            category = torrent.find(class_="category-column").text
-            name = torrent.find(class_="name-column").text.replace("\n", '')
-            size = torrent.find(class_="size-column").text
-            output.add_row([name, category, size, first, last])
-
-        print(f" {Fore.YELLOW}Found {len(torrents)} torrents... \n{Fore.LIGHTGREEN_EX}{output}{Fore.RESET}")
+        
+        # Corrección: Verificar si la tabla existe antes de intentar extraer datos
+        table_div = soup.find(class_="table")
+        if table_div:
+            table = table_div.find("tbody")
+            if table:
+                torrents = table.find_all("tr")
+                output = PrettyTable(["Name", "Category", "Size", "First seen", "Last seen"])
+                for torrent in torrents:
+                    try:
+                        first, last = torrent.find_all(class_="date-column")
+                        first, last = first.text, last.text
+                        category = torrent.find(class_="category-column").text
+                        name = torrent.find(class_="name-column").text.replace("\n", '')
+                        size = torrent.find(class_="size-column").text
+                        output.add_row([name, category, size, first, last])
+                    except Exception:
+                        pass # Ignora filas malformadas
+                
+                print(f" {Fore.YELLOW}Found {len(torrents)} torrents... \n{Fore.LIGHTGREEN_EX}{output}{Fore.RESET}")
+            else:
+                print(f" {Fore.RED}No se encontraron torrents para esta IP.{Fore.RESET}")
+        else:
+             print(f" {Fore.RED}No se encontraron resultados o el sitio bloqueó la consulta (Antibot).{Fore.RESET}")
         continue
     elif ans == 2 and system == 2:
         os.system('clear')
@@ -105,21 +116,32 @@ while True:
         Operator -> {ls["org"]}
         '''
         print(res)
-        page = get("https://iknowwhatyoudownload.com/en/peer/?ip=" + ip,
-                   headers=ts.headers)
+page = get("https://iknowwhatyoudownload.com/en/peer/?ip=" + ip, headers=ts.headers)
         soup = BeautifulSoup(page.content, "html.parser")
-        table = soup.find(class_="table").find("tbody")
-        torrents = table.find_all("tr")
-        output = PrettyTable(["Name", "Category", "Size", "First seen", "Last seen"])
-        for torrent in torrents:
-            first, last = torrent.find_all(class_="date-column")
-            first, last = first.text, last.text
-            category = torrent.find(class_="category-column").text
-            name = torrent.find(class_="name-column").text.replace("\n", '')
-            size = torrent.find(class_="size-column").text
-            output.add_row([name, category, size, first, last])
-
-        print(f" {Fore.YELLOW}Found {len(torrents)} torrents... \n{Fore.LIGHTGREEN_EX}{output}{Fore.RESET}")
+        
+        # Corrección: Verificar si la tabla existe antes de intentar extraer datos
+        table_div = soup.find(class_="table")
+        if table_div:
+            table = table_div.find("tbody")
+            if table:
+                torrents = table.find_all("tr")
+                output = PrettyTable(["Name", "Category", "Size", "First seen", "Last seen"])
+                for torrent in torrents:
+                    try:
+                        first, last = torrent.find_all(class_="date-column")
+                        first, last = first.text, last.text
+                        category = torrent.find(class_="category-column").text
+                        name = torrent.find(class_="name-column").text.replace("\n", '')
+                        size = torrent.find(class_="size-column").text
+                        output.add_row([name, category, size, first, last])
+                    except Exception:
+                        pass # Ignora filas malformadas
+                
+                print(f" {Fore.YELLOW}Found {len(torrents)} torrents... \n{Fore.LIGHTGREEN_EX}{output}{Fore.RESET}")
+            else:
+                print(f" {Fore.RED}No se encontraron torrents para esta IP.{Fore.RESET}")
+        else:
+             print(f" {Fore.RED}No se encontraron resultados o el sitio bloqueó la consulta (Antibot).{Fore.RESET}")
         continue
     elif ans == 3 and system == 1:
         os.system('cls')
